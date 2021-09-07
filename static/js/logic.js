@@ -23,39 +23,25 @@ let baseMaps = {
 };
 
 let map = L.map('mapid', {
-    center: [44.0, -80.0],
-    zoom: 2,
+    center: [43.7, -79.3],
+    zoom: 11,
     layers: [streets]
-})
-// Accessing the Toronto airline routes GeoJSON URL.
-let torontoData = "static/js/torontoRoutes.json";
-// Accessing the airport GeoJSON URL
-let airportData = "static/js/majorAirports.json"
-
-// Create a style for the lines.
-let myStyle = {
-    color: "#ffffa1",
-    weight: 2
-};
-
-// Grabbing our GeoJSON data.
-d3.json(torontoData).then(function(data) {
-    console.log(data);
-  // Creating a GeoJSON layer with the retrieved data.
-  L.geoJson(data, {
-      style: myStyle
-      onEachFeature: function(feature, layer) {
-          layer.bindPopup("<h3> Airline: " +feature.properties.airline + "</h3> <hr> <h3> Destination: "
-          + feature.properties.dst + "</h3>");
-      }
-      .addTo(map),
 });
-
-// Create a style for the lines.
-let myStyle = {
-    color: "#ffffa1",
-    weight: 2
-};
 
 // Pass our map layers into our layer control and add the layer control to the map
 L.control.layers(baseMaps).addTo(map);
+
+// Accessing the Toronto neighborhoods data
+let torontoHoods = "static/js/torontoNeighborhoods.json"
+// // Accessing the Toronto airline routes GeoJSON URL.
+// let torontoData = "static/js/torontoRoutes.json";
+// // Accessing the airport GeoJSON URL
+// let airportData = "static/js/majorAirports.json"
+
+// Grabbing our GeoJSON data.
+d3.json(torontoHoods).then(function(data) {
+    console.log(data);
+  // Creating a GeoJSON layer with the retrieved data.
+  L.geoJson(data).addTo(map);
+
+});
