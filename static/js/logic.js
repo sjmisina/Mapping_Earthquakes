@@ -22,6 +22,13 @@ let baseMaps = {
     Satellite: satelliteStreets
 };
 
+// Create the earthquake layer for our map
+let earthquakes = new L.LayerGroup();
+
+let overlays = {
+    Earthquakes: earthquakes
+};
+
 let map = L.map('mapid', {
     center: [39.5, -98.5],
     zoom: 3,
@@ -29,14 +36,7 @@ let map = L.map('mapid', {
 });
 
 // Pass our map layers into our layer control and add the layer control to the map
-L.control.layers(baseMaps).addTo(map);
-
-// Accessing the Toronto neighborhoods data
-let torontoHoods = "static/js/torontoNeighborhoods.json"
-// // Accessing the Toronto airline routes GeoJSON URL.
-// let torontoData = "static/js/torontoRoutes.json";
-// // Accessing the airport GeoJSON URL
-// let airportData = "static/js/majorAirports.json"
+L.control.layers(baseMaps, overlays).addTo(map);
 
 // Retrieve the earthquake GeoJSON data.
 d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson").then(function(data) {
@@ -90,11 +90,12 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
             return L.circleMarker(latlng);
         },
         // We set the style for each circleMarker using our styleInfo function.
-    style: styleInfo,
-        // We create a popup for each circleMarker to display the magnitude and
-        //  location of the earthquake after the marker has been created and styled.
-        onEachFeature: function(feature, layer) {
-        layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
-    }
-    }).addTo(map);
+        style: styleInfo,
+            // We create a popup for each circleMarker to display the magnitude and
+            // location of the earthquake after the marker has been created and styled.
+            onEachFeature: function(feature, layer) {
+            layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
+        }
+    }).addTo(earthquakes);
+    earthquakes.addTo(map);
 });
