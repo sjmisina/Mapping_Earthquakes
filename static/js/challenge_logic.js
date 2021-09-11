@@ -228,7 +228,7 @@ legend.onAdd = function() {
   
     console.log("platesData: " + data);
     // Create a GeoJSON layer with the retrieved data
-    L.geoJson(data,{color: "magenta"}).addTo(tectonicPlates);
+    L.geoJson(data,{color: "magenta", weight: 4}).addTo(tectonicPlates);
     console.log("geoJson: " + data);
   });
   tectonicPlates.addTo(map);
