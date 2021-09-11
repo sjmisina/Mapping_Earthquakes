@@ -137,23 +137,17 @@ function styleInfo(feature) {
 // 5. Change the color function to use three colors for the major earthquakes based on the magnitude of the earthquake.
   // This function determines the color of the marker based on the magnitude of the earthquake.
   function getColor(magnitude) {
+    if (magnitude >= 6) {
+      return "#FF1493";
+    }
     if (magnitude >= 5) {
       return "#ea2c2c";
     }
-    if (magnitude >= 4) {
+    if (magnitude < 5) {
       return "#ea822c";
     }
-    if (magnitude >= 3) {
-      return "#ee9c00";
-    }
-    if (magnitude >= 2) {
-      return "#eecc00";
-    }
-    if (magnitude >= 1) {
-      return "#d4ee00";
-    }
-    return "#98ee00";
-  }
+
+    };
 
 // 6. Use the function that determines the radius of the earthquake marker based on its magnitude.
   function getRadius(magnitude) {
@@ -198,14 +192,15 @@ let legend = L.control({
 legend.onAdd = function() {
   let div = L.DomUtil.create("div", "info legend");
 
-  const magnitudes = [0, 1, 2, 3, 4, 5];
+  const magnitudes = [0, 1, 2, 3, 4, 5, 6];
   const colors = [
     "#98ee00",
     "#d4ee00",
     "#eecc00",
     "#ee9c00",
     "#ea822c",
-    "#ea2c2c"
+    "#ea2c2c",
+    "#FF1493"
   ];
 
 // Looping through our intervals to generate a label with a colored square for each interval.
@@ -228,7 +223,7 @@ legend.onAdd = function() {
   
     console.log("platesData: " + data);
     // Create a GeoJSON layer with the retrieved data
-    L.geoJson(data,{color: "magenta", weight: 4}).addTo(tectonicPlates);
+    L.geoJson(data,{color: "lime", weight: 4}).addTo(tectonicPlates);
     console.log("geoJson: " + data);
   });
   tectonicPlates.addTo(map);
